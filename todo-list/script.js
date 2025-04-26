@@ -1,3 +1,4 @@
+// Elementos do DOM
 const modalForm = document.getElementById('form');
 const taskNameInput = document.getElementById('taskName');
 const startDateInput = document.getElementById('startDate');
@@ -8,11 +9,13 @@ const addTaskButton = document.getElementById('add');
 const closeButton = document.getElementById('close');
 const tasksContainer = document.getElementById('tasks');
 
+// Evento de envio do formulário
 modalForm.addEventListener('submit', (e) => {
   e.preventDefault();
   formValidation();
 });
 
+// Validação do formulário
 let formValidation = () => {
   const existingMsg = taskNameInput.parentNode.querySelector('.error-message');
   if (existingMsg) {
@@ -38,8 +41,10 @@ let formValidation = () => {
   }
 };
 
+// Armazenamento de dados
 let data = [];
 
+// Resetar formulário
 let resetForm = () => {
   taskNameInput.value = '';
   startDateInput.value = '';
@@ -48,6 +53,7 @@ let resetForm = () => {
   taskStatusSelect.value = '';
 };
 
+// Aceitar e armazenar dados
 let acceptdData = () => {
   data.push({
     taskName: taskNameInput.value,
@@ -62,6 +68,7 @@ let acceptdData = () => {
   resetForm();
 };
 
+// Criar tarefas
 let createTasks = () => {
   tasks.innerHTML = '';
   data.map((x, y) => {
@@ -93,6 +100,7 @@ let createTasks = () => {
   resetForm();
 };
 
+// Excluir tarefa
 let deleteTask = (e) => {
   e.parentElement.parentElement.remove();
   data.splice(e.parentElement.parentElement.id, 1);
@@ -100,6 +108,7 @@ let deleteTask = (e) => {
   console.log(data);
 };
 
+// Editar tarefa
 let editTask = (e) => {
   const taskElement = e.parentElement.parentElement;
   taskNameInput.value = taskElement.children[0].innerHTML;
@@ -115,6 +124,8 @@ let editTask = (e) => {
   );
   deleteTask(e);
 };
+
+// Inicializar tarefas do localStorage
 (() => {
   data = JSON.parse(localStorage.getItem('tasks')) || [];
   console.log(data);
