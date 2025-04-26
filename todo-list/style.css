@@ -1,55 +1,123 @@
+/* Fonte e cores principais */
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #000000; /* Black background */
+  background-color: #f5f5f7;
+  color: #333;
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* Full viewport height */
+}
+
+h4,
+h5 {
+  text-align: center;
+  color: #1c1c1e;
 }
 
 .app {
-  background-color: #ffffff; /* Black background */
-  width: 100%;
   max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-h4 {
-  color: #333333; /* Dark gray color */
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-#new-task {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* Botão principal */
+button#new-task {
+  background-color: #007aff;
   color: #ffffff;
-  padding: 10px 15px;
+  border: none;
   border-radius: 10px;
+  padding: 10px 15px;
+  font-size: 16px;
   cursor: pointer;
-  margin-bottom: 20px;
-  text-align: center;
-  font-weight: 500;
-  width: 100%;
+  transition: background-color 0.3s ease;
 }
 
-#tasks {
-  background-color: #ffffff; /* White background */
+button#new-task:hover {
+  background-color: #0056d6;
+}
+
+/* Modal */
+.modal-content {
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px; /* Adicionado padding ao modal */
+}
+
+.modal-header {
+  background-color: #f5f5f7;
+  border-bottom: none;
+  border-radius: 15px 15px 0 0;
+}
+
+.modal-footer {
+  background-color: #f5f5f7;
+  border-top: none;
+  border-radius: 0 0 15px 15px;
+}
+
+.modal-title {
+  color: #1c1c1e;
+}
+
+input,
+select {
+  margin-bottom: 10px;
+  border: 1px solid #d1d1d6;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  font-size: 14px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #007aff;
+  box-shadow: 0 0 4px rgba(0, 122, 255, 0.5);
+}
+
+/* Botões de ação */
+button.edit-btn,
+button.delete-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+button.edit-btn:hover,
+button.delete-btn:hover {
+  opacity: 0.8;
+}
+
+/* Lista de tarefas */
+#tasks > div {
+  background-color: #ffffff;
+  border: 1px solid #d1d1d6;
+  border-radius: 10px;
   padding: 15px;
-  margin-top: 10px;
-  width: 100%;
-  text-align: center;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#tasks span.fw-bold {
+  font-weight: 500;
+  color: #1c1c1e;
+}
+
+#tasks span.small {
+  font-size: 12px;
+  color: #8e8e93;
+}
+
+#tasks p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.accordion-body {
+  padding: 15px; /* Adicionado padding ao corpo do accordion */
 }

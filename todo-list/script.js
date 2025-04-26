@@ -29,16 +29,24 @@ let formValidation = () => {
   } else {
     console.log('success');
     acceptdData();
+    add.setAttribute('data-bs-dismiss', 'modal');
+    add.click();
 
-    // Fechar o modal programaticamente
-    const modalInstance = bootstrap.Modal.getInstance(modalForm);
-    if (modalInstance) {
-      modalInstance.hide();
-    }
+    (() => {
+      add.setAttribute('data-bs-dismiss', '');
+    })();
   }
 };
 
 let data = [];
+
+let resetForm = () => {
+  taskNameInput.value = '';
+  startDateInput.value = '';
+  endDateInput.value = '';
+  estimatedCostInput.value = '';
+  taskStatusSelect.value = '';
+};
 
 let acceptdData = () => {
   data.push({
@@ -51,6 +59,7 @@ let acceptdData = () => {
   localStorage.setItem('tasks', JSON.stringify(data));
   console.log(data);
   createTasks();
+  resetForm();
 };
 
 let createTasks = () => {
@@ -64,22 +73,50 @@ let createTasks = () => {
             <p>Status da Tarefa: ${x.taskStatus}</p>
   
             <span class="options">
-              <i onClick= "editTask(this)" data-bs-toggle="modal" data-bs-target="#form" class="fas fa-edit"></i>
-              <i onClick ="deleteTask(this);createTasks()" class="fas fa-trash-alt"></i>
+              <button class="edit-btn me-2" onClick="editTask(this)" data-bs-toggle="modal" data-bs-target="#form" style="background-color: orange; color: white;">
+                <i class="bi bi-pencil-square me-1"></i><span>Editar</span>
+              </button>
+              <button class="delete-btn" onClick="deleteTask(this);createTasks()" style="background-color: red; color: white;">
+                <i class="bi bi-trash-fill me-1"></i><span>Deletar</span>
+              </button>
             </span>
           </div>
       `);
   });
 
+  // Verifique se os ícones estão sendo renderizados corretamente
+  const icons = document.querySelectorAll('.bi');
+  if (icons.length === 0) {
+    console.error('Os ícones do Bootstrap não estão sendo renderizados.');
+  }
+
   resetForm();
 };
 
-// Initialize Bootstrap tooltips (example of Bootstrap initialization)
-document.addEventListener('DOMContentLoaded', () => {
-  const tooltipTriggerList = [].slice.call(
-    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+let deleteTask = (e) => {
+  e.parentElement.parentElement.remove();
+  data.splice(e.parentElement.parentElement.id, 1);
+  localStorage.setItem('tasks', JSON.stringify(data));
+  console.log(data);
+};
+
+let editTask = (e) => {
+  const taskElement = e.parentElement.parentElement;
+  taskNameInput.value = taskElement.children[0].innerHTML;
+  startDateInput.value = taskElement.children[1].innerHTML.split(' - ')[0];
+  endDateInput.value = taskElement.children[1].innerHTML.split(' - ')[1];
+  estimatedCostInput.value = taskElement.children[2].innerHTML.replace(
+    'Custo Estimado (R$): ',
+    ''
   );
-  tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl);
-  });
-});
+  taskStatusSelect.value = taskElement.children[3].innerHTML.replace(
+    'Status da Tarefa: ',
+    ''
+  );
+  deleteTask(e);
+};
+(() => {
+  data = JSON.parse(localStorage.getItem('tasks')) || [];
+  console.log(data);
+  createTasks();
+})();
