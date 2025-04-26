@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
+    <!-- Cabeçalho -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap CSS -->
+    <!-- Estilos e fontes -->
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
       crossorigin="anonymous"
     />
     <link
@@ -26,77 +26,89 @@
   </head>
 
   <body>
-    <div class="conteiner">
-      <button class="btn btn-primary new-task-button">
-        <i class="bi bi-calendar-plus-fill"></i> Cadastrar tarefa
-      </button>
+    <div class="app">
+      <!-- Título principal -->
+      <h4>Seu Condominio App</h4>
 
-      <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button
-              class="accordion-button"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseTaskForm"
-              aria-expanded="true"
-              aria-controls="collapseTaskForm"
-            >
-              Nova Tarefa
-            </button>
-          </h2>
-          <div
-            id="collapseTaskForm"
-            class="accordion-collapse collapse show"
-            data-bs-parent="#accordionExample"
-          >
+      <!-- Botão para cadastrar nova tarefa -->
+      <div id="new-task">
+        <button
+          class="btn btn-primary d-flex align-items-center"
+          data-bs-toggle="modal"
+          data-bs-target="#form"
+        >
+          <i class="bi bi-calendar3-event-fill me-2"></i> Cadastrar Tarefa
+        </button>
+      </div>
+
+      <!-- Modal para criar nova tarefa -->
+      <form
+        class="modal fade"
+        id="form"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Cabeçalho do modal -->
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Nova Tarefa</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <!-- Corpo do modal -->
             <div class="accordion-body">
-              <form>
-                <label for="taskName">Nome da Tarefa:</label>
-                <input type="text" id="taskName" class="form-control" />
+              <!-- Campos do formulário -->
+              <label for="taskName">Nome da Tarefa:</label>
+              <input type="text" id="taskName" class="form-control" />
 
-                <label for="startDate">Início:</label>
-                <input type="date" id="startDate" class="form-control" />
+              <label for="startDate">Início:</label>
+              <input type="date" id="startDate" class="form-control" />
 
-                <label for="endDate">Conclusão:</label>
-                <input type="date" id="endDate" class="form-control" />
+              <label for="endDate">Conclusão:</label>
+              <input type="date" id="endDate" class="form-control" />
 
-                <label for="estimatedCost">Custo Estimado (R$):</label>
-                <input type="number" id="estimatedCost" class="form-control" />
+              <label for="estimatedCost">Custo Estimado (R$):</label>
+              <input type="number" id="estimatedCost" class="form-control" />
 
-                <label for="taskStatus">Status da Tarefa:</label>
-                <select id="taskStatus" class="form-select">
-                  <option>Concluída</option>
-                  <option>Em Andamento</option>
-                  <option>Pendente</option>
-                </select>
+              <label for="taskStatus">Status da Tarefa:</label>
+              <select id="taskStatus" class="form-select">
+                <option>Concluída</option>
+                <option>Em Andamento</option>
+                <option>Pendente</option>
+              </select>
 
-                <button type="button" class="btn btn-danger delete-button">
-                  <i class="bi bi-x-circle-fill"></i> Delete
-                </button>
-                <button type="submit" class="btn btn-primary save-button">
-                  <i class="bi bi-floppy-fill"></i> Salvar
-                </button>
+              <!-- Seção de comentários -->
+              <div id="comments" class="comments-section">
+                <div class="comment"></div>
+              </div>
+            </div>
 
-                <label for="comments"
-                  ><i class="bi bi-chat-left-dots-fill"></i> Comentários</label
-                >
-                <div id="comments" class="comments-section">
-                  <div class="comment">
-                    <strong>Nome:</strong>
-                    <p>Comentário:</p>
-                  </div>
-                </div>
-              </form>
+            <!-- Rodapé do modal -->
+            <div class="modal-footer">
+              <button type="submit" id="add" class="btn btn-primary">
+                Criar Tarefa
+              </button>
             </div>
           </div>
         </div>
-      </div>
+      </form>
+
+      <!-- Lista de tarefas -->
+      <h5 class="text-center my-3">Tarefas</h5>
+      <div id="tasks"></div>
     </div>
-    <!-- Option 1: Bootstrap Bundle with Popper -->
+
+    <!-- Scripts -->
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
       crossorigin="anonymous"
     ></script>
     <script src="script.js"></script>
