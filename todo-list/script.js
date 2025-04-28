@@ -43,6 +43,7 @@ let formValidation = () => {
 
 // Armazenamento de dados
 let data = [];
+let currentEditIndex = null;
 
 // Resetar formulário
 let resetForm = () => {
@@ -55,13 +56,25 @@ let resetForm = () => {
 
 // Aceitar e armazenar dados
 let acceptdData = () => {
-  data.push({
-    taskName: taskNameInput.value,
-    startDate: startDateInput.value,
-    endDate: endDateInput.value,
-    estimatedCost: estimatedCostInput.value,
-    taskStatus: taskStatusSelect.value,
-  });
+  if (currentEditIndex !== null) {
+    // Atualizar tarefa existente
+    data[currentEditIndex] = {
+      taskName: taskNameInput.value,
+      startDate: startDateInput.value,
+      endDate: endDateInput.value,
+      estimatedCost: estimatedCostInput.value,
+      taskStatus: taskStatusSelect.value,
+    };
+    currentEditIndex = null;
+  } else {
+    data.push({
+      taskName: taskNameInput.value,
+      startDate: startDateInput.value,
+      endDate: endDateInput.value,
+      estimatedCost: estimatedCostInput.value,
+      taskStatus: taskStatusSelect.value,
+    });
+  }
   localStorage.setItem('tasks', JSON.stringify(data));
   console.log(data);
   createTasks();
@@ -127,6 +140,7 @@ let deleteTask = (e) => {
 // Editar tarefa
 let editTask = (e) => {
   const taskElement = e.parentElement.parentElement;
+  currentEditIndex = taskElement.id;
   taskNameInput.value = taskElement.children[0].innerHTML;
   startDateInput.value = taskElement.children[1].innerHTML.split(' - ')[0];
   endDateInput.value = taskElement.children[1].innerHTML.split(' - ')[1];
@@ -138,9 +152,6 @@ let editTask = (e) => {
     'Status da Tarefa: ',
     ''
   );
-  taskElement.remove();
-  data.splice(taskElement.id, 1);
-  localStorage.setItem('tasks', JSON.stringify(data));
 };
 
 // Inicializar tarefas do localStorage
