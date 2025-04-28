@@ -102,10 +102,12 @@ let createTasks = () => {
 
 // Excluir tarefa
 let deleteTask = (e) => {
-  e.parentElement.parentElement.remove();
-  data.splice(e.parentElement.parentElement.id, 1);
-  localStorage.setItem('tasks', JSON.stringify(data));
-  console.log(data);
+  if (confirm('Tem certeza de que deseja excluir esta tarefa?')) {
+    e.parentElement.parentElement.remove();
+    data.splice(e.parentElement.parentElement.id, 1);
+    localStorage.setItem('tasks', JSON.stringify(data));
+    console.log(data);
+  }
 };
 
 // Editar tarefa
@@ -122,7 +124,9 @@ let editTask = (e) => {
     'Status da Tarefa: ',
     ''
   );
-  deleteTask(e);
+  taskElement.remove();
+  data.splice(taskElement.id, 1);
+  localStorage.setItem('tasks', JSON.stringify(data));
 };
 
 // Inicializar tarefas do localStorage
