@@ -124,7 +124,6 @@ let editTask = (e) => {
     'Status da Tarefa: ',
     ''
   );
-  // Remove a tarefa sem confirmação ao editar
   taskElement.remove();
   data.splice(taskElement.id, 1);
   localStorage.setItem('tasks', JSON.stringify(data));
