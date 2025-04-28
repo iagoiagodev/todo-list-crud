@@ -86,31 +86,45 @@ let createTasks = () => {
   tasks.innerHTML = '';
   data.map((x, y) => {
     return (tasks.innerHTML += `
-      <div id=${y}>
-            <span class="fw-bold">${x.taskName}</span>
-            <span class="small text-secondary">${x.startDate} - ${x.endDate}</span>
-            <p>Custo Estimado (R$): ${x.estimatedCost}</p>
-            <p>Status da Tarefa: ${x.taskStatus}</p>
-  
-            <span class="options">
-              <button class="edit-btn me-2" onClick="editTask(this)" data-bs-toggle="modal" data-bs-target="#form" style="background-color: orange; color: white;">
-                <i class="bi bi-pencil-square me-1"></i><span>Editar</span>
-              </button>
-              <button class="delete-btn" onClick="deleteTask(this);createTasks()" style="background-color: red; color: white;">
-                <i class="bi bi-trash-fill me-1"></i><span>Deletar</span>
-              </button>
-            </span>
-          </div>
-      `);
+      <div id=${y} class="task-item">
+        <div class="task-header d-flex justify-content-between align-items-center" style="cursor: pointer;">
+          <span class="fw-bold">${x.taskName}</span>
+          <i class="bi bi-chevron-down"></i>
+        </div>
+        <div class="task-details" style="display: none; margin-top: 10px;">
+          <span class="small text-secondary">${x.startDate} - ${x.endDate}</span>
+          <p>Custo Estimado (R$): ${x.estimatedCost}</p>
+          <p>Status da Tarefa: ${x.taskStatus}</p>
+          <span class="options">
+            <button class="edit-btn me-2" onClick="editTask(${y})" data-bs-toggle="modal" data-bs-target="#form" style="background-color: orange; color: white;">
+              <i class="bi bi-pencil-square me-1"></i><span>Editar</span>
+            </button>
+            <button class="delete-btn" onClick="deleteTask(this);createTasks()" style="background-color: red; color: white;">
+              <i class="bi bi-trash-fill me-1"></i><span>Deletar</span>
+            </button>
+          </span>
+        </div>
+      </div>
+    `);
   });
 
-  // Verifique se os ícones estão sendo renderizados corretamente
-  const icons = document.querySelectorAll('.bi');
-  if (icons.length === 0) {
-    console.error('Os ícones do Bootstrap não estão sendo renderizados.');
-  }
-
-  resetForm();
+  // Adicionar funcionalidade de exibir/esconder detalhes
+  const taskHeaders = document.querySelectorAll('.task-header');
+  taskHeaders.forEach((header) => {
+    header.addEventListener('click', () => {
+      const details = header.nextElementSibling;
+      const icon = header.querySelector('i');
+      if (details.style.display === 'none' || details.style.display === '') {
+        details.style.display = 'block';
+        icon.classList.remove('bi-chevron-down');
+        icon.classList.add('bi-chevron-up');
+      } else {
+        details.style.display = 'none';
+        icon.classList.remove('bi-chevron-up');
+        icon.classList.add('bi-chevron-down');
+      }
+    });
+  });
 };
 
 // Excluir tarefa
@@ -124,20 +138,14 @@ let deleteTask = (e) => {
 };
 
 // Editar tarefa
-let editTask = (e) => {
-  const taskElement = e.parentElement.parentElement;
-  currentEditIndex = taskElement.id;
-  taskNameInput.value = taskElement.children[0].innerHTML;
-  startDateInput.value = taskElement.children[1].innerHTML.split(' - ')[0];
-  endDateInput.value = taskElement.children[1].innerHTML.split(' - ')[1];
-  estimatedCostInput.value = taskElement.children[2].innerHTML.replace(
-    'Custo Estimado (R$): ',
-    ''
-  );
-  taskStatusSelect.value = taskElement.children[3].innerHTML.replace(
-    'Status da Tarefa: ',
-    ''
-  );
+let editTask = (index) => {
+  currentEditIndex = index; // Usar o índice diretamente
+  const task = data[index]; // Obter a tarefa do array de dados
+  taskNameInput.value = task.taskName;
+  startDateInput.value = task.startDate;
+  endDateInput.value = task.endDate;
+  estimatedCostInput.value = task.estimatedCost;
+  taskStatusSelect.value = task.taskStatus;
 };
 
 // Inicializar tarefas do localStorage
