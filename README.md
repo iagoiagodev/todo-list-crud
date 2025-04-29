@@ -45,7 +45,10 @@ Before running the project, make sure to install the required dependencies.
    ```
 
 2. **Install backend dependencies**:
+
+   ```bash
    npm install express sqlite3 cors json-server && npm install --save-dev nodemon
+   ```
 
 3. **Add scripts to `package.json`**:
    Add the following scripts to your `package.json`:
