@@ -68,7 +68,7 @@ Now you're ready to run the project!
    - Navigate to the `backend` folder: `cd todo-list/backend`.
    - Start the server using server.js:
      ```bash
-     node server.j
+     node server.js
      ```
 
 2. **Frontend**:
