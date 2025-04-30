@@ -16,19 +16,30 @@ app.get('/todos', (req, res) => {
 
 // POST a new todo
 app.post('/todos', (req, res) => {
-  const { title } = req.body;
-  db.run('INSERT INTO todos (title) VALUES (?)', [title], function (err) {
-    if (err) return res.status(500).json({ error: err.message });
-    res.status(201).json({ id: this.lastID, title, done: 0 });
-  });
+  const { taskName, startDate, endDate, estimatedCost, taskStatus } = req.body;
+  db.run(
+    `INSERT INTO todos (taskName, startDate, endDate, estimatedCost, taskStatus) VALUES (?, ?, ?, ?, ?)`,
+    [taskName, startDate, endDate, estimatedCost, taskStatus],
+    function (err) {
+      if (err) return res.status(500).json({ error: err.message });
+      res.status(201).json({
+        id: this.lastID,
+        taskName,
+        startDate,
+        endDate,
+        estimatedCost,
+        taskStatus,
+      });
+    }
+  );
 });
 
-// PUT update todo status
+// PUT update todo
 app.put('/todos/:id', (req, res) => {
-  const { done } = req.body;
+  const { taskName, startDate, endDate, estimatedCost, taskStatus } = req.body;
   db.run(
-    'UPDATE todos SET done = ? WHERE id = ?',
-    [done, req.params.id],
+    `UPDATE todos SET taskName = ?, startDate = ?, endDate = ?, estimatedCost = ?, taskStatus = ? WHERE id = ?`,
+    [taskName, startDate, endDate, estimatedCost, taskStatus, req.params.id],
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
       res.json({ updated: this.changes });
@@ -38,9 +49,13 @@ app.put('/todos/:id', (req, res) => {
 
 // DELETE a todo
 app.delete('/todos/:id', (req, res) => {
-  db.run('DELETE FROM todos WHERE id = ?', [req.params.id], function (err) {
+  const { id } = req.params;
+  db.run('DELETE FROM todos WHERE id = ?', [id], function (err) {
     if (err) return res.status(500).json({ error: err.message });
-    res.json({ deleted: this.changes });
+    if (this.changes === 0) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+    res.json({ message: 'Task deleted successfully', deletedId: id });
   });
 });
 
@@ -48,4 +63,4 @@ const PORT = 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
 
 // cd todo-list/backend
-// npx json-server --watch db.json --port 3000
+// node server.js

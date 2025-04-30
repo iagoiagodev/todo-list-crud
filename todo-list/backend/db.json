@@ -1,3 +1,12 @@
 {
-  "todos": []
+  "todos": [
+    {
+      "id": 1,
+      "taskName": "Exemplo de Tarefa",
+      "startDate": "2023-01-01",
+      "endDate": "2023-01-10",
+      "estimatedCost": 100.0,
+      "taskStatus": "Pendente"
+    }
+  ]
 }

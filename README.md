@@ -66,9 +66,9 @@ Now you're ready to run the project!
 1. **Backend**:
 
    - Navigate to the `backend` folder: `cd todo-list/backend`.
-   - Start the server using JSON Server:
+   - Start the server using server.js:
      ```bash
-     npx json-server --watch db.json --port 3000
+     node server.js
      ```
 
 2. **Frontend**:
@@ -147,9 +147,9 @@ Agora você está pronto para executar o projeto!
 1. **Backend**:
 
    - Navegue até a pasta `backend`: `cd todo-list/backend`.
-   - Inicie o servidor usando o JSON Server:
+   - Inicie o servidor usando o server.js:
      ```bash
-     npx json-server --watch db.json --port 3000
+     node server.js
      ```
 
 2. **Frontend**:
