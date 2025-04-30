@@ -63,4 +63,4 @@ const PORT = 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
 
 // cd todo-list/backend
-// npx json-server --watch db.json --port 3000
+// node server.js
